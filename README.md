@@ -11,7 +11,7 @@ A continuación se presenta el contenido y una breve explicación de cada desafi
 
 ## Contenido de la entrega
 
-### [Desafio 1](Entrega_Final/desafio1.ipyinb) 
+### [Desafio 1](Entrega_Final/Desafio1/Desafio_1.ipynb) 
 
 El desafío 1 consistio en el entrenamiento de un vectorizador de texto.
 Se utilizo el dataset provisto en el notebook de ejemplo (news groups / noticias agrupadas por categoría) para el desarrollo de las siguientes tareas:
@@ -34,7 +34,7 @@ Se utilizo el dataset provisto en el notebook de ejemplo (news groups / noticias
 +-------------------------+------------+
 ```
 - Finalmente se evaluo la similaridad entre terminos usando la trasnpuesta de la matriz documento - término. Viendo, por ejemplo, que los terminos mas similares a 'budapest' eran \['budapest', 'judenrat', 'palgi', 'perdition', 'nazr'\].
-### [Desafio 2](Entrega_Final/desafio2.ipyinb) 
+### [Desafio 2](Entrega_Final/Desafio2/Desafio2.ipynb) 
 En el desafio 2 entrenamos embeddings de términos con Gensim, sobre un dataset a elección. En mi caso fue un dataset de bromas en inglés.
 
 Luego de hacer un preprocesamiento del dataset, segmentando los textos en palabras, y entrenando un modelo Word2Vec basado en arquitectura 'SkipGram'.
@@ -51,9 +51,36 @@ Obteniendo una representación visual de las distancias entre palabras del corpu
 
 
 
-### [Desafio 3](Entrega_Final/desafio3.ipyinb) 
-* Word embeddings, CBOW y SkipGRAM
-* Representación de palabras
+### [Desafio 3](Entrega_Final/Desafio3/Desafio3.ipynb) 
+En el desafio 3 entrenamos un modelo de lenguaje con tokenización por caracteres.
+Para esto se hizo uso de 3 arquitecturas/elementos (disponibles en keras) vistas en el curso:
+- GRU (Gated recurrent unit)
+- LSTM (Long short term memory)
+- SimpleRNN (Simple recurrent unit)
+Utilice un dataset de abstracts de papers sobre AI / machine learning.
+
+Durante el preprocesamiento arme un solo gran documento que luego se segmento para el entrenamiento en elementos de tamaño de contexto utilizado.
+
+La tokenización se hizo a partir de indexar los caracteres presentes en el corpus.
+
+
+Una vez obtenido el texto tokenizado se separo en secuencias de train y validacion, donde las segundas eran simplemente la primera + el siguiente caracter, ya que la tarea del modelo era predecir el siguiente caracter basandose en la secuencia de entrada.
+
+Para el entrenamiento se agrego como métrica de validación un callback adhoc que hacia una estimacióin de perplejidad y que fue provisto por los docentes.
+
+![Perplexity](Entrega_Final/Desafio3/perplexity.png)
+
+#### Beam search y greedy search
+
+Los modelos entrenados se probaron generando secuencias con las estrategias beam search (variando el parametro temperatura) y con busqueda 'determinista'.
+
+Si bien la performance no resulto demasiado sorprendente, los resultados fueron lógicos dadas las estructuras, parámetros y el dataset empleados. 
+
+Ademas pude ver que la estrategia beam search con temperatura 0.5 era lógica y la estrategia beam search resultaba en seencias de caracteres ilogicas si se subia demasiado la temperatura.
+
+
+
+
 
 ### [Desafio 4](Entrega_Final/desafio4.ipyinb) 
 * Redes recurrentes (RNN)
