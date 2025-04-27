@@ -83,11 +83,52 @@ Ademas pude ver que la estrategia beam search con temperatura 0.5 era lógica y 
 
 
 ### [Desafio 4](Entrega_Final/desafio4.ipyinb) 
-* Redes recurrentes (RNN)
-* Problemas de secuencia
-* Estimación de próxima palabra
+En el desafio 4 reutilizamos el script visto para el traductor, donde se construye una arquitectura Encoder decoder utilizando como embeddings los pesos preentrenados de FastText para el lenguaje inglés. Entrenando los tokenizers sobre un dataset de oraciones traducidas al español.. es decir un tokenizer entrenado en ingles (el de entrada) y otro es entrenado sobre terminos en español.
+
+En este desafio  los tokenizers son entrenados sobre oraciones del tipo pregunta y respuesta, ambos en ingles. Por lo que en principio deberian ser muy similares,  solo que en el de salida se incluyen los tokens especiales del decoder, que tiene que poder comprender las señales de inicio y fin de secuencia.
 
 
+
+![arq-encoder-decoder-entrenada](Entrega_Final/Desafio4/model_encoder_decoder.png)
+
+Para probar el funcionamiento utilizamos la misma logica que se usaba en el ejemplo de traduccion, donde se inicia la inferencia con alimentando al sistema agregando las señales de inicio y fin de secuencia a la salida de la prediccion del encoder.
+
+Pude comprobar que las respuestas son dentro de todo lógicas, obviamente con las limitaciones del caso (ya que el dataset es limitado (6k pares de preguntas/respuestas)), intente probar agrandando el tamaño de las secuencias per se hace inmanejable para mi gpu.
+Por otro lado aumente las epochs a 30 y note cierta mejora en la calidad de las respuestas.
+
+a modo de ejemplo dejo algunos pares de Pregunta/Respuesta probados en este desafio:
+
+- Modelo entrenado 15 epochs:
+
+```
+Input: what do you do for a living 
+Response: i am a student
+
+Input: send me your number please
+Response: i am not sure what you mean
+
+Input: oh are you a student
+Response: i am a student
+```
+
+- Modelo entrenado 30 epochs:
+
+```
+Input: hello
+Response: hello how are you
+Input: that is cool what do you
+Response: i am a student
+Input: i like to go to the movies 
+Response: i like to go to the beach
+Input: are you here 
+Response: i am not sure what you mean
+Input: i am a librarian 
+Response: i am a student
+Input: what are you up to today 
+Response: i am a student
+```
+
+La respuesta 'i am a student' se repite bastante, esto podría ser que sea una oracion que se repita tambien en las oraciones de respuesta elegidas para entrenar el modelo y por eso se termina mapeando a muchas preguntas que no tienen mucho que ver.
 
 # Profesores
 :octocat: Dr. Rodrigo Cardenas Szigety (2022-actual)\
